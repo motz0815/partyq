@@ -9,7 +9,7 @@ import { HostInterface } from "./host-interface"
 
 export function HostPage({ room }: { room: Room }) {
     const [queue, setQueue] = useState<Song[]>(room.queue as Song[])
-    const [currentIndex, setCurrentIndex] = useState<number>(0)
+    const [currentIndex, setCurrentIndex] = useState<number>(room.current_index)
     const [progress, setProgress] = useState<number>(0)
 
     const supabase = createClient()
@@ -66,7 +66,10 @@ export function HostPage({ room }: { room: Room }) {
             roomCode={room.code ?? ""}
             queue={queue}
             currentIndex={currentIndex}
-            onCurrentIndexChange={setCurrentIndex}
+            onCurrentIndexChange={(index) => {
+                setCurrentIndex(index)
+                // TODO: update current index in database
+            }}
             progress={progress}
         >
             {queue && queue[currentIndex] && (
@@ -79,6 +82,7 @@ export function HostPage({ room }: { room: Room }) {
                                 return
                             }
                             setCurrentIndex((prev) => prev + 1)
+                            // TODO: update current index in database
                         }}
                         videoId={queue[currentIndex].videoId ?? ""}
                         opts={opts}

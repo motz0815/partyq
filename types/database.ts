@@ -13,18 +13,21 @@ export type Database = {
         Row: {
           code: string | null
           created_at: string
+          current_index: number
           id: number
           queue: Json
         }
         Insert: {
           code?: string | null
           created_at?: string
+          current_index?: number
           id?: number
           queue?: Json
         }
         Update: {
           code?: string | null
           created_at?: string
+          current_index?: number
           id?: number
           queue?: Json
         }
