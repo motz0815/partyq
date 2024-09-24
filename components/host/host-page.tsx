@@ -1,8 +1,9 @@
 "use client"
 
+import { createClient } from "@/lib/supabase/client"
 import { Room } from "@/types/global"
 import { Song } from "@/types/song"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import YouTube, { YouTubeProps } from "react-youtube"
 import { HostInterface } from "./host-interface"
 
@@ -11,9 +12,35 @@ export function HostPage({ room }: { room: Room }) {
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [progress, setProgress] = useState<number>(0)
 
-    // TODO set up realtime queue updates from supabase
+    const supabase = createClient()
+
+    useEffect(() => {
+        const channels = supabase
+            .channel("room-update-channel")
+            .on(
+                "postgres_changes",
+                {
+                    event: "UPDATE",
+                    schema: "public",
+                    table: "rooms",
+                    filter: `code=eq.${room.code}`,
+                },
+                (payload) => {
+                    const updatedRoom = payload.new as Room
+                    setQueue(updatedRoom.queue as Song[])
+                },
+            )
+            .subscribe()
+
+        // unsubscribe from the channel when the component is unmounted
+        return () => {
+            channels.unsubscribe()
+        }
+    }, [room.code])
 
     const opts: YouTubeProps["opts"] = {
+        width: "100%",
+        height: "100%",
         playerVars: {
             autoplay: 1,
         },
@@ -21,7 +48,6 @@ export function HostPage({ room }: { room: Room }) {
     }
 
     const onPlayerStateChange: YouTubeProps["onStateChange"] = (event) => {
-        console.log("state change", event)
         switch (event.data) {
             case -1: // unstarted
                 event.target.playVideo()
@@ -43,17 +69,22 @@ export function HostPage({ room }: { room: Room }) {
             onCurrentIndexChange={setCurrentIndex}
             progress={progress}
         >
-            <YouTube
-                onStateChange={onPlayerStateChange}
-                onEnd={() => {
-                    if (currentIndex === queue.length - 1) {
-                        return
-                    }
-                    setCurrentIndex((prev) => prev + 1)
-                }}
-                videoId={queue[currentIndex].videoId ?? ""}
-                opts={opts}
-            />
+            {queue && queue[currentIndex] && (
+                <div className="relative pt-[56.25%]">
+                    <YouTube
+                        className="absolute inset-0"
+                        onStateChange={onPlayerStateChange}
+                        onEnd={() => {
+                            if (currentIndex === queue.length - 1) {
+                                return
+                            }
+                            setCurrentIndex((prev) => prev + 1)
+                        }}
+                        videoId={queue[currentIndex].videoId ?? ""}
+                        opts={opts}
+                    />
+                </div>
+            )}
         </HostInterface>
     )
 }

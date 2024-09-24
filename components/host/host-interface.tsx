@@ -9,6 +9,7 @@ import { Song } from "@/types/song"
 import { ClipboardCheck, CopyIcon } from "lucide-react"
 import Image from "next/image"
 import { ReactNode } from "react"
+import { RoomQRCode } from "./qr-code"
 
 interface HostPageProps {
     roomCode: string
@@ -41,11 +42,12 @@ export function HostInterface({
 
     return (
         <div className="flex min-h-screen flex-col bg-gradient-to-br from-purple-600 to-pink-500 p-8 text-white">
-            <header className="mx-auto mb-12 flex w-full max-w-7xl items-center justify-between">
+            <header className="mb-12 flex w-full items-center justify-between">
                 <h1 className="text-4xl font-bold">PartyQ Host</h1>
                 <div className="flex items-center space-x-4">
                     <span className="text-2xl font-semibold">
-                        Room Code: {roomCode}
+                        Room Code:{" "}
+                        <span className="font-extrabold">{roomCode}</span>
                     </span>
                     <Button
                         variant="secondary"
@@ -59,33 +61,34 @@ export function HostInterface({
                 </div>
             </header>
 
-            <main className="mx-auto flex w-full max-w-7xl flex-grow flex-col space-y-12 lg:flex-row lg:space-x-8 lg:space-y-0">
-                <section className="flex flex-col items-center justify-center gap-6 lg:w-1/2">
-                    {/* Children will be rendered here, replacing the YouTube player placeholder */}
+            <main className="flex flex-grow flex-col space-y-12 lg:flex-row lg:space-x-8 lg:space-y-0">
+                <section className="flex flex-col items-center justify-start lg:w-2/3">
                     <div className="aspect-video w-full overflow-hidden rounded-lg bg-black/50 shadow-lg">
                         {children}
                     </div>
-                    <Progress
-                        value={progress}
-                        max={100}
-                        className="h-3 w-full max-w-lg"
-                    />
-                    {/* Display title and artist of current song */}
-                    <div className="flex flex-col">
-                        <h2 className="text-3xl font-bold">
-                            {queue[currentIndex].title}
-                        </h2>
-                        <p className="text-lg text-muted">
-                            {queue[currentIndex].artist}
-                        </p>
+                    <div className="mt-6 flex w-full flex-col items-center">
+                        <Progress
+                            value={progress}
+                            max={100}
+                            className="h-3 w-full max-w-lg"
+                        />
+                        <div className="mt-4 flex flex-col items-center">
+                            <h2 className="text-3xl font-bold">
+                                {queue[currentIndex]?.title ||
+                                    "No song playing"}
+                            </h2>
+                            <p className="text-lg text-muted">
+                                {queue[currentIndex]?.artist || ""}
+                            </p>
+                        </div>
                     </div>
                 </section>
 
-                <section className="lg:w-1/2">
+                <section className="flex flex-col lg:w-1/3">
                     <h3 className="mb-4 text-center text-3xl font-bold lg:text-left">
                         Up Next
                     </h3>
-                    <ScrollArea className="h-[calc(100vh-200px)] w-full rounded-md border border-white/20 p-4 lg:h-[600px]">
+                    <ScrollArea className="flex-grow rounded-md border border-white/20 p-4">
                         <ul className="space-y-4">
                             {queue.map((song, index) => (
                                 <li
@@ -127,6 +130,16 @@ export function HostInterface({
                             )}
                         </ul>
                     </ScrollArea>
+                    <div className="mt-8 w-full">
+                        <h3 className="mb-2 text-2xl font-bold">
+                            Add songs to the queue
+                        </h3>
+                        <p className="mb-4">
+                            Visit partyq.vercel.app and enter room code{" "}
+                            <span className="font-extrabold">{roomCode}</span>
+                        </p>
+                        <RoomQRCode roomCode={roomCode} />
+                    </div>
                 </section>
             </main>
 
