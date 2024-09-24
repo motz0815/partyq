@@ -14,16 +14,19 @@ export type Database = {
           code: string | null
           created_at: string
           id: number
+          queue: Json
         }
         Insert: {
           code?: string | null
           created_at?: string
           id?: number
+          queue?: Json
         }
         Update: {
           code?: string | null
           created_at?: string
           id?: number
+          queue?: Json
         }
         Relationships: []
       }

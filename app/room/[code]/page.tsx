@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { createClient } from "@/lib/supabase/server"
+import { createClient } from "@/lib/supabase/client"
 import Link from "next/link"
 
 export default async function RoomPage({
