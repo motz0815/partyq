@@ -37,7 +37,7 @@ export default async function HostHubPage() {
                 </CardHeader>
                 <CardContent>
                     {rooms.length === 0 ? (
-                        <p>You don't have any active rooms</p>
+                        <p>You don&apos;t have any active rooms</p>
                     ) : (
                         <ul className="flex flex-col items-center justify-center gap-4">
                             {rooms.map((room) => (
