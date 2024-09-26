@@ -68,3 +68,31 @@ export async function addSongToQueue(formData: FormData) {
 
     revalidatePath(`/room/${room.code}`)
 }
+
+export async function searchSong(query: string): Promise<Song[]> {
+    const session = await getSession()
+
+    type SongResult = {
+        id: string
+        type: "video"
+        thumbnail: { thumbnails: [] }
+        title: string
+        channelTitle: string
+        shortBylineText: { runs: [] }
+        length: { accessibility: Object; simpleText: string }
+        isLive: boolean
+    }
+
+    const api = require("youtube-search-api")
+    const result: SongResult[] = (
+        await api.GetListByKeyword(query, false, 10, [{ type: "video" }])
+    ).items
+
+    return result.map((song) => ({
+        title: song.title,
+        artist: song.channelTitle,
+        videoId: song.id,
+        addedBy: session.uuid,
+        addedByName: session.username,
+    }))
+}

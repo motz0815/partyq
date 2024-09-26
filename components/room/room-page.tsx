@@ -1,6 +1,6 @@
 "use client"
 
-import { login, setUsername } from "@/app/room/[code]/actions"
+import { login, searchSong, setUsername } from "@/app/room/[code]/actions"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -13,11 +13,11 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { toast } from "@/hooks/use-toast"
 import { Song } from "@/types/song"
+import { UUID } from "crypto"
 import { CopyIcon, Loader2Icon, PlusCircleIcon, SearchIcon } from "lucide-react"
 import Image from "next/image"
 import { SetStateAction, useState } from "react"
 import { SubmitButton } from "../ui/submit-button"
-import { UUID } from "crypto"
 
 interface RoomPageProps {
     roomCode: string
@@ -59,12 +59,14 @@ export function RoomPage({
             .catch((err) => console.error("Failed to copy room code: ", err))
     }
 
-    function handleSearch() {
+    async function handleSearch() {
         setIsSearching(true)
-        // Simulating API call
-        setTimeout(() => {
-            setIsSearching(false)
-        }, 1500)
+        // API call
+        const results = await searchSong(searchQuery)
+
+        setSearchResults(results)
+
+        setIsSearching(false)
     }
 
     function addSongToQueue(song: Song) {}
@@ -175,13 +177,13 @@ export function RoomPage({
                                                 Add a Song
                                             </Button>
                                         </DialogTrigger>
-                                        <DialogContent className="sm:max-w-[425px]">
+                                        <DialogContent className="max-h-[80vh] max-w-3xl">
                                             <DialogHeader>
                                                 <DialogTitle>
                                                     Add a Song
                                                 </DialogTitle>
                                             </DialogHeader>
-                                            <div className="grid gap-4 py-4">
+                                            <div className="grid gap-4 overflow-y-auto py-4">
                                                 <div className="flex items-center space-x-2">
                                                     <Input
                                                         placeholder="Search for songs or artists..."
@@ -220,7 +222,7 @@ export function RoomPage({
                                                                         <Image
                                                                             src={
                                                                                 song.thumbnail ??
-                                                                                ""
+                                                                                `https://i.ytimg.com/vi_webp/${song.videoId}/mqdefault.webp`
                                                                             }
                                                                             alt={`${song.title} by ${song.artist}`}
                                                                             width={
