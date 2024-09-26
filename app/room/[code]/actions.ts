@@ -24,7 +24,7 @@ export async function setUsername(formData: FormData) {
     revalidatePath(`/room/${(formData.get("code") as string) ?? ""}`)
 }
 
-export async function addSongToQueue(formData: FormData) {
+export async function addSongToQueue(code: string, song: Song) {
     const session = await getSession()
 
     const supabase = createAdminClient()
@@ -32,7 +32,7 @@ export async function addSongToQueue(formData: FormData) {
     const { data: room, error } = await supabase
         .from("rooms")
         .select()
-        .eq("code", (formData.get("code") as string) ?? "")
+        .eq("code", code ?? "")
         .single()
 
     if (error || !room) {
@@ -57,9 +57,9 @@ export async function addSongToQueue(formData: FormData) {
     }
 
     queue.push({
-        title: (formData.get("title") as string) ?? "",
-        artist: (formData.get("artist") as string) ?? "",
-        videoId: (formData.get("videoId") as string) ?? "",
+        title: song.title ?? "",
+        artist: song.artist ?? "",
+        videoId: song.videoId ?? "",
         addedBy: session.uuid,
         addedByName: session.username,
     })
@@ -67,6 +67,10 @@ export async function addSongToQueue(formData: FormData) {
     await supabase.from("rooms").update({ queue }).eq("code", room.code!)
 
     revalidatePath(`/room/${room.code}`)
+
+    return {
+        ok: true,
+    }
 }
 
 export async function searchSong(query: string): Promise<Song[]> {
