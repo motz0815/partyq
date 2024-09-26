@@ -22,7 +22,6 @@ import { UUID } from "crypto"
 import { CopyIcon, Loader2Icon, PlusCircleIcon, SearchIcon } from "lucide-react"
 import Image from "next/image"
 import { SetStateAction, useState } from "react"
-import { SubmitButton } from "../ui/submit-button"
 
 interface RoomPageProps {
     roomCode: string
@@ -173,18 +172,23 @@ export function RoomPage({
                     </ScrollArea>
                 </section>
 
-                <section className="rounded-lg bg-white/10 p-4 text-center md:p-6">
+                <section className="rounded-lg bg-white/10 p-4 text-center sm:p-6">
                     {user.isLoggedIn ? (
                         <>
                             {user.username ? (
-                                <>
-                                    <p>
+                                <div className="space-y-4">
+                                    <p className="text-sm sm:text-base">
                                         You are currently logged in as{" "}
-                                        {user.username}.
+                                        <span className="font-semibold">
+                                            {user.username}
+                                        </span>
+                                        .
                                     </p>
-                                    <p className="mb-4">
+                                    <p className="mb-4 text-sm sm:text-base">
                                         You can add up to{" "}
-                                        {maxSongsPerUser - songsAddedByUser}{" "}
+                                        <span className="font-semibold">
+                                            {maxSongsPerUser - songsAddedByUser}
+                                        </span>{" "}
                                         more songs.
                                     </p>
                                     <Dialog
@@ -197,13 +201,13 @@ export function RoomPage({
                                                     songsAddedByUser >=
                                                     maxSongsPerUser
                                                 }
-                                                className="bg-green-500 hover:bg-green-600"
+                                                className="w-full bg-green-500 hover:bg-green-600 sm:w-auto"
                                             >
-                                                <PlusCircleIcon className="mr-2 h-5 w-5" />
+                                                <PlusCircleIcon className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                                                 Add a Song
                                             </Button>
                                         </DialogTrigger>
-                                        <DialogContent className="flex max-h-[80vh] max-w-3xl flex-col">
+                                        <DialogContent className="flex max-h-[80vh] w-full max-w-[95vw] flex-col sm:max-w-3xl">
                                             <DialogHeader className="flex-shrink-0">
                                                 <DialogTitle>
                                                     Add a Song
@@ -211,7 +215,7 @@ export function RoomPage({
                                             </DialogHeader>
                                             <div className="flex-1 overflow-y-auto">
                                                 <div className="grid gap-4 py-4">
-                                                    <div className="flex items-center space-x-2">
+                                                    <div className="mx-4 flex flex-col items-center gap-2 space-y-2 sm:flex-row sm:space-y-0">
                                                         <Input
                                                             placeholder="Search for songs or artists..."
                                                             value={searchQuery}
@@ -225,11 +229,14 @@ export function RoomPage({
                                                                         .value,
                                                                 )
                                                             }
+                                                            className="w-full"
                                                         />
                                                         <Button
                                                             onClick={
                                                                 handleSearch
                                                             }
+                                                            className="w-full sm:w-auto"
+                                                            size="lg"
                                                         >
                                                             <SearchIcon className="h-4 w-4" />
                                                         </Button>
@@ -264,13 +271,13 @@ export function RoomPage({
                                                                                 }
                                                                                 className="rounded-md"
                                                                             />
-                                                                            <div>
-                                                                                <p className="font-semibold">
+                                                                            <div className="text-left">
+                                                                                <p className="text-sm font-semibold">
                                                                                     {
                                                                                         song.title
                                                                                     }
                                                                                 </p>
-                                                                                <p className="text-sm text-gray-600">
+                                                                                <p className="text-xs text-gray-600">
                                                                                     {
                                                                                         song.artist
                                                                                     }
@@ -293,7 +300,7 @@ export function RoomPage({
                                                         </ul>
                                                     ) : searchQuery &&
                                                       !isSearching ? (
-                                                        <p>
+                                                        <p className="text-sm">
                                                             No songs found.
                                                             Please try a
                                                             different search.
@@ -303,46 +310,59 @@ export function RoomPage({
                                             </div>
                                         </DialogContent>
                                     </Dialog>
-                                </>
+                                </div>
                             ) : (
-                                <>
-                                    <p>
+                                <div className="space-y-4">
+                                    <p className="text-sm sm:text-base">
                                         You must set a username to add songs to
                                         the queue.
                                     </p>
-                                    <form action={setUsername}>
+                                    <form
+                                        action={setUsername}
+                                        className="space-y-2"
+                                    >
                                         <Input
                                             required
                                             name="username"
                                             placeholder="Username"
-                                            className="text-primary"
+                                            className="w-full text-primary"
                                         />
                                         <input
                                             name="code"
                                             value={roomCode}
                                             hidden
                                         />
-                                        <SubmitButton>
+                                        <Button
+                                            type="submit"
+                                            className="w-full sm:w-auto"
+                                        >
                                             Set Username
-                                        </SubmitButton>
+                                        </Button>
                                     </form>
-                                </>
+                                </div>
                             )}
                         </>
                     ) : (
-                        <>
-                            <p>You are currently not logged in.</p>
-                            <form action={login}>
+                        <div className="space-y-4">
+                            <p className="text-sm sm:text-base">
+                                You are currently not logged in.
+                            </p>
+                            <form action={login} className="space-y-2">
                                 <Input
                                     required
                                     name="username"
                                     placeholder="Username"
-                                    className="text-primary"
+                                    className="w-full text-primary"
                                 />
                                 <input name="code" value={roomCode} hidden />
-                                <SubmitButton>Log in to add songs</SubmitButton>
+                                <Button
+                                    type="submit"
+                                    className="w-full sm:w-auto"
+                                >
+                                    Log in to add songs
+                                </Button>
                             </form>
-                        </>
+                        </div>
                     )}
                 </section>
             </main>

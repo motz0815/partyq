@@ -1,5 +1,7 @@
 "use client"
 
+import { updateCurrentIndex } from "@/app/host/[code]/actions"
+import { toast } from "@/hooks/use-toast"
 import { createClient } from "@/lib/supabase/client"
 import { Room } from "@/types/global"
 import { Song } from "@/types/song"
@@ -11,6 +13,7 @@ export function HostPage({ room }: { room: Room }) {
     const [queue, setQueue] = useState<Song[]>(room.queue as Song[])
     const [currentIndex, setCurrentIndex] = useState<number>(room.current_index)
     const [progress, setProgress] = useState<number>(0)
+    const [ended, setEnded] = useState<boolean>(false)
 
     const supabase = createClient()
 
@@ -27,7 +30,16 @@ export function HostPage({ room }: { room: Room }) {
                 },
                 (payload) => {
                     const updatedRoom = payload.new as Room
-                    setQueue(updatedRoom.queue as Song[])
+                    const updatedQueue = updatedRoom.queue as Song[]
+
+                    // if the current queue has already ended and the new queue has more songs than the old queue then continue playing
+                    if (ended && updatedQueue.length > queue.length) {
+                        setQueue(updatedQueue)
+                        setCurrentIndex((prev) => prev + 1)
+                        setEnded(false)
+                    } else {
+                        setQueue(updatedQueue)
+                    }
                 },
             )
             .subscribe()
@@ -66,9 +78,16 @@ export function HostPage({ room }: { room: Room }) {
             roomCode={room.code ?? ""}
             queue={queue}
             currentIndex={currentIndex}
-            onCurrentIndexChange={(index) => {
-                setCurrentIndex(index)
-                // TODO: update current index in database
+            onCurrentIndexChange={async (index) => {
+                const response = await updateCurrentIndex(room.code!, index)
+                if (response.ok) {
+                    setCurrentIndex(index)
+                } else {
+                    toast({
+                        title: "Error",
+                        description: response.message,
+                    })
+                }
             }}
             progress={progress}
         >
@@ -77,12 +96,24 @@ export function HostPage({ room }: { room: Room }) {
                     <YouTube
                         className="absolute inset-0"
                         onStateChange={onPlayerStateChange}
-                        onEnd={() => {
+                        onEnd={async () => {
                             if (currentIndex === queue.length - 1) {
+                                // reached the end of the queue
+                                setEnded(true)
                                 return
                             }
-                            setCurrentIndex((prev) => prev + 1)
-                            // TODO: update current index in database
+                            const response = await updateCurrentIndex(
+                                room.code!,
+                                currentIndex + 1,
+                            )
+                            if (response.ok) {
+                                setCurrentIndex(currentIndex + 1)
+                            } else {
+                                toast({
+                                    title: "Error",
+                                    description: response.message,
+                                })
+                            }
                         }}
                         videoId={queue[currentIndex].videoId ?? ""}
                         opts={opts}
