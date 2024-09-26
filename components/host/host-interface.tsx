@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { Song } from "@/types/song"
 import { ClipboardCheck, CopyIcon } from "lucide-react"
 import Image from "next/image"
-import { ReactNode } from "react"
+import { ReactNode, useEffect, useRef } from "react"
 import { ScrollArea } from "../ui/scroll-area"
 import { RoomQRCode } from "./qr-code"
 
@@ -39,6 +39,17 @@ export function HostInterface({
             )
             .catch((err) => console.error("Failed to copy room code: ", err))
     }
+
+    const currentSongRef = useRef<HTMLLIElement>(null)
+
+    useEffect(() => {
+        if (currentSongRef.current) {
+            currentSongRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            })
+        }
+    }, [currentIndex])
 
     return (
         <div className="flex min-h-screen flex-col bg-gradient-to-br from-purple-600 to-pink-500 p-8 text-white">
@@ -88,40 +99,46 @@ export function HostInterface({
                     <h3 className="mb-4 text-center text-3xl font-bold lg:text-left">
                         Up Next
                     </h3>
-                    <ScrollArea className="flex-grow rounded-md border border-white/20 p-4">
+                    <ScrollArea className="max-h-[500px] flex-grow rounded-md border border-white/20 p-4">
                         <ul className="space-y-4">
-                            {queue.map((song, index) => (
-                                <li
-                                    key={index}
-                                    className={cn(
-                                        "flex items-center space-x-4 rounded-lg bg-white/10 p-3 hover:cursor-pointer",
-                                        {
-                                            "bg-white/30":
-                                                index === currentIndex,
-                                        },
-                                    )}
-                                    onClick={() => onCurrentIndexChange(index)}
-                                >
-                                    <Image
-                                        src={
-                                            song.thumbnail ??
-                                            `https://i.ytimg.com/vi_webp/${song.videoId}/mqdefault.webp`
+                            {queue.map((song, index) => {
+                                const isCurrent = index === currentIndex
+                                return (
+                                    <li
+                                        key={index}
+                                        ref={isCurrent ? currentSongRef : null}
+                                        className={cn(
+                                            "flex items-center space-x-4 rounded-lg bg-white/10 p-3 hover:cursor-pointer",
+                                            {
+                                                "bg-white/30":
+                                                    index === currentIndex,
+                                            },
+                                        )}
+                                        onClick={() =>
+                                            onCurrentIndexChange(index)
                                         }
-                                        width={128}
-                                        height={128}
-                                        alt={`${song.title} by ${song.artist}`}
-                                        className="aspect-video h-20 rounded-md object-cover"
-                                    />
-                                    <div>
-                                        <h4 className="text-xl font-semibold">
-                                            {song.title}
-                                        </h4>
-                                        <p className="text-lg text-gray-300">
-                                            {song.artist}
-                                        </p>
-                                    </div>
-                                </li>
-                            ))}
+                                    >
+                                        <Image
+                                            src={
+                                                song.thumbnail ??
+                                                `https://i.ytimg.com/vi_webp/${song.videoId}/mqdefault.webp`
+                                            }
+                                            width={128}
+                                            height={128}
+                                            alt={`${song.title} by ${song.artist}`}
+                                            className="aspect-video h-20 rounded-md object-cover"
+                                        />
+                                        <div>
+                                            <h4 className="text-xl font-semibold">
+                                                {song.title}
+                                            </h4>
+                                            <p className="text-lg text-gray-300">
+                                                {song.artist}
+                                            </p>
+                                        </div>
+                                    </li>
+                                )
+                            })}
                             {queue.length === 0 && (
                                 <li className="text-center text-lg">
                                     No songs in queue. Visit the room page to
