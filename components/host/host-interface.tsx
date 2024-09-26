@@ -75,7 +75,7 @@ export function HostInterface({
                     alt="PartyQ background"
                 />
             </div>
-            <div className="flex min-h-screen flex-col p-8 text-white backdrop-blur-3xl">
+            <div className="flex min-h-screen flex-col bg-black/30 p-8 text-white backdrop-blur-3xl">
                 <header className="mb-8 flex w-full items-center justify-between">
                     <h1 className="text-4xl font-bold">PartyQ Host</h1>
                     <div className="flex items-center space-x-4">
@@ -97,7 +97,7 @@ export function HostInterface({
 
                 <main className="flex flex-grow flex-col space-y-8 lg:flex-row lg:space-x-8 lg:space-y-0">
                     <section className="flex flex-col items-center justify-start lg:w-2/3">
-                        <div className="aspect-video w-full overflow-hidden rounded-lg bg-black/50 shadow-2xl backdrop-blur-lg">
+                        <div className="aspect-video w-full overflow-hidden rounded-lg bg-black/50 shadow-2xl outline outline-1 outline-white/20 backdrop-blur-lg">
                             {children}
                         </div>
                         <div className="mt-6 flex w-full flex-col items-center">
