@@ -14,6 +14,8 @@ export type Database = {
           code: string | null
           created_at: string
           current_index: number
+          expires_at: string
+          host: string
           id: number
           queue: Json
         }
@@ -21,6 +23,8 @@ export type Database = {
           code?: string | null
           created_at?: string
           current_index?: number
+          expires_at?: string
+          host: string
           id?: number
           queue?: Json
         }
@@ -28,6 +32,8 @@ export type Database = {
           code?: string | null
           created_at?: string
           current_index?: number
+          expires_at?: string
+          host?: string
           id?: number
           queue?: Json
         }
@@ -38,7 +44,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      clean_expired_rooms: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

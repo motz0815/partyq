@@ -8,7 +8,7 @@
         "start": "next start",
         "lint": "next lint",
         "supabase:types": "supabase gen types --lang typescript --project-id xmloxebrmbezotphpbdp > types/database.ts",
-        "vercel:env": "vercel env pull .env.local"
+        "vercel:env": "vercel env pull .env.development.local"
     },
     "dependencies": {
         "@radix-ui/react-dialog": "^1.1.1",
@@ -20,7 +20,9 @@
         "@supabase/supabase-js": "^2.45.4",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
+        "date-fns": "^4.1.0",
         "geist": "^1.3.1",
+        "iron-session": "^8.0.3",
         "lucide-react": "^0.427.0",
         "next": "^14.2.13",
         "qrcode.react": "^4.0.1",
