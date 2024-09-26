@@ -50,6 +50,7 @@
         "typescript": "^5.6.2"
     },
     "trustedDependencies": [
-        "core-js-pure"
+        "core-js-pure",
+        "supabase"
     ]
 }
