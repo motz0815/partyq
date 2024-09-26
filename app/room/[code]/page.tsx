@@ -1,5 +1,7 @@
 import { RoomPage } from "@/components/room/room-page"
+import { getSession } from "@/lib/session"
 import { createClient } from "@/lib/supabase/client"
+import { Song } from "@/types/song"
 
 export default async function Page({ params }: { params: { code: string } }) {
     const supabase = createClient()
@@ -14,17 +16,19 @@ export default async function Page({ params }: { params: { code: string } }) {
         throw new Error("Room not found")
     }
 
+    const session = await getSession()
+
     return (
         <RoomPage
             roomCode={room.code!}
-            currentSong={{
-                artist: "Mclaren james",
-                title: "lightnign",
-                videoId: "49",
-            }}
+            currentIndex={room.current_index ?? 0}
             maxSongsPerUser={2}
-            queue={[]}
-            userAddedSongs={1}
+            queue={(room.queue as Song[]) ?? []}
+            user={{
+                isLoggedIn: session.isLoggedIn,
+                uuid: session.uuid,
+                username: session.username,
+            }}
         />
     )
 }
