@@ -21,6 +21,7 @@ import { Song } from "@/types/song"
 import { UUID } from "crypto"
 import { CopyIcon, Loader2Icon, PlusCircleIcon, SearchIcon } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { SetStateAction, useState } from "react"
 
 interface RoomPageProps {
@@ -88,7 +89,11 @@ export function RoomPage({
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-600 to-pink-500 p-4 text-white md:p-8">
             <header className="mb-8 flex items-center justify-between md:container">
-                <h1 className="text-2xl font-bold md:text-4xl">PartyQ Room</h1>
+                <Link href="/">
+                    <h1 className="text-2xl font-bold md:text-4xl">
+                        PartyQ Room
+                    </h1>
+                </Link>
                 <div className="flex items-center space-x-2">
                     <span className="text-lg font-semibold md:text-2xl">
                         Room Code: {roomCode}

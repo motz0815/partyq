@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { Song } from "@/types/song"
 import { ClipboardCheck, CopyIcon } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { ReactNode, useEffect, useRef } from "react"
 import { ScrollArea } from "../ui/scroll-area"
 import { RoomQRCode } from "./qr-code"
@@ -53,13 +54,13 @@ export function HostInterface({
 
     return (
         <div className="relative">
-            <div className="absolute left-0 top-0 -z-10 h-full w-full overflow-hidden bg-black">
+            <div className="absolute left-0 top-0 -z-10 h-full w-full overflow-hidden bg-gradient-to-br from-slate-500 to-indigo-950">
                 <Image
                     src={
                         queue[currentIndex]?.thumbnail ??
                         `https://i.ytimg.com/vi_webp/${queue[currentIndex]?.videoId}/mqdefault.webp`
                     }
-                    className="animate-rotate absolute -top-[50%] z-10 aspect-square w-[200%] mix-blend-luminosity blur-3xl"
+                    className="absolute -top-[50%] z-10 aspect-square w-[200%] animate-rotate mix-blend-luminosity blur-3xl"
                     width={600}
                     height={600}
                     alt="PartyQ background"
@@ -71,13 +72,15 @@ export function HostInterface({
                     }
                     width={600}
                     height={600}
-                    className="animate-rotate delay-10000 absolute -top-[50%] aspect-square w-[200%] blur-3xl direction-reverse"
+                    className="absolute -top-[50%] aspect-square w-[200%] animate-rotate blur-3xl delay-10000 direction-reverse"
                     alt="PartyQ background"
                 />
             </div>
             <div className="flex min-h-screen flex-col bg-black/30 p-8 text-white backdrop-blur-3xl">
                 <header className="mb-8 flex w-full items-center justify-between">
-                    <h1 className="text-4xl font-bold">PartyQ Host</h1>
+                    <Link href="/">
+                        <h1 className="text-4xl font-bold">PartyQ Host</h1>
+                    </Link>
                     <div className="flex items-center space-x-4">
                         <span className="text-2xl font-semibold">
                             Room Code:{" "}
