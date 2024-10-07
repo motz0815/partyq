@@ -336,6 +336,7 @@ export function RoomPage({
                                             name="code"
                                             value={roomCode}
                                             hidden
+                                            readOnly
                                         />
                                         <SubmitButton className="w-full sm:w-auto">
                                             Set Username
@@ -356,7 +357,12 @@ export function RoomPage({
                                     placeholder="Enter a username"
                                     className="w-full text-primary sm:mx-auto sm:w-auto"
                                 />
-                                <input name="code" value={roomCode} hidden />
+                                <input
+                                    name="code"
+                                    value={roomCode}
+                                    hidden
+                                    readOnly
+                                />
                                 <SubmitButton className="w-full sm:w-auto">
                                     Set username
                                 </SubmitButton>
