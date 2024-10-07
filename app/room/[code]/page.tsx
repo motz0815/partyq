@@ -3,6 +3,16 @@ import { getSession } from "@/lib/session"
 import { createClient } from "@/lib/supabase/client"
 import { Song } from "@/types/song"
 
+export async function generateMetadata({
+    params,
+}: {
+    params: { code: string }
+}) {
+    return {
+        title: "Room - " + params.code,
+    }
+}
+
 export default async function Page({ params }: { params: { code: string } }) {
     const supabase = createClient()
 

@@ -46,7 +46,7 @@ export async function addSongToQueue(code: string, song: Song) {
 
     const songsAddedByUser = queue.filter(
         (song, index) =>
-            song.addedBy === session.uuid && index >= room.current_index,
+            song.addedBy === session.uuid && index > room.current_index,
     ).length
 
     if (songsAddedByUser >= 2) {

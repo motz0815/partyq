@@ -5,14 +5,14 @@ import { getErrorRedirect, getStatusRedirect } from "@/lib/utils"
 import { redirect } from "next/navigation"
 
 export async function joinRoom(formData: FormData) {
-    const code = formData.get("code") as string
+    const code = (formData.get("code") as string).toUpperCase()
 
     const supabase = createClient()
 
     const { data: room, error } = await supabase
         .from("rooms")
         .select()
-        .eq("code", code.toUpperCase())
+        .eq("code", code)
         .single()
 
     if (error || !room) {

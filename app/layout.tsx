@@ -8,9 +8,10 @@ import type { Metadata, Viewport } from "next"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
-    title: "Project",
-    description: "This project is the perfect project.",
-    keywords: ["projects"],
+    title: { default: "PartyQ", template: "%s | PartyQ" },
+    description:
+        "PartyQ makes collaborative party music queueing easy. Open source, no login required, just create a room and let the party begin!",
+    keywords: ["party", "music", "queue"],
 }
 
 export const viewport: Viewport = {
