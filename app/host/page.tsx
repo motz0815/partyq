@@ -6,8 +6,13 @@ import { Room } from "@/types/global"
 import { Song } from "@/types/song"
 import { formatDistance } from "date-fns"
 import { Plus } from "lucide-react"
+import { Metadata } from "next"
 import Link from "next/link"
 import { createRoom } from "./actions"
+
+export const metadata: Metadata = {
+    title: "Host",
+}
 
 export default async function HostHubPage() {
     const session = await getSession()

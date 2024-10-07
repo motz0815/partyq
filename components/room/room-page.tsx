@@ -19,10 +19,17 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { toast } from "@/hooks/use-toast"
 import { Song } from "@/types/song"
 import { UUID } from "crypto"
-import { CopyIcon, Loader2Icon, PlusCircleIcon, SearchIcon } from "lucide-react"
+import {
+    ArrowDown,
+    CopyIcon,
+    Loader2Icon,
+    PlusCircleIcon,
+    SearchIcon,
+} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { SetStateAction, useState } from "react"
+import { SubmitButton } from "../ui/submit-button"
 
 interface RoomPageProps {
     roomCode: string
@@ -94,6 +101,10 @@ export function RoomPage({
                         PartyQ Room
                     </h1>
                 </Link>
+                <div className="flex flex-col items-center justify-center gap-1 sm:hidden">
+                    <ArrowDown className="size-8" />
+                    <p>Scroll down to refresh</p>
+                </div>
                 <div className="flex items-center space-x-2">
                     <span className="text-lg font-semibold md:text-2xl">
                         Room Code: {roomCode}
@@ -206,7 +217,7 @@ export function RoomPage({
                                                     songsAddedByUser >=
                                                     maxSongsPerUser
                                                 }
-                                                className="w-full bg-green-500 hover:bg-green-600 sm:w-auto"
+                                                className="w-full sm:w-auto"
                                             >
                                                 <PlusCircleIcon className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                                                 Add a Song
@@ -319,8 +330,7 @@ export function RoomPage({
                             ) : (
                                 <div className="space-y-4">
                                     <p className="text-sm sm:text-base">
-                                        You must set a username to add songs to
-                                        the queue.
+                                        You must set a username to add songs.
                                     </p>
                                     <form
                                         action={setUsername}
@@ -329,7 +339,7 @@ export function RoomPage({
                                         <Input
                                             required
                                             name="username"
-                                            placeholder="Username"
+                                            placeholder="Enter a username"
                                             className="w-full text-primary"
                                         />
                                         <input
@@ -337,12 +347,9 @@ export function RoomPage({
                                             value={roomCode}
                                             hidden
                                         />
-                                        <Button
-                                            type="submit"
-                                            className="w-full sm:w-auto"
-                                        >
+                                        <SubmitButton className="w-full sm:w-auto">
                                             Set Username
-                                        </Button>
+                                        </SubmitButton>
                                     </form>
                                 </div>
                             )}
@@ -350,22 +357,19 @@ export function RoomPage({
                     ) : (
                         <div className="space-y-4">
                             <p className="text-sm sm:text-base">
-                                You are currently not logged in.
+                                You must set a username to add songs.
                             </p>
                             <form action={login} className="space-y-2">
                                 <Input
                                     required
                                     name="username"
-                                    placeholder="Username"
-                                    className="w-full text-primary"
+                                    placeholder="Enter a username"
+                                    className="w-full text-primary sm:mx-auto sm:w-auto"
                                 />
                                 <input name="code" value={roomCode} hidden />
-                                <Button
-                                    type="submit"
-                                    className="w-full sm:w-auto"
-                                >
-                                    Log in to add songs
-                                </Button>
+                                <SubmitButton className="w-full sm:w-auto">
+                                    Set username
+                                </SubmitButton>
                             </form>
                         </div>
                     )}
