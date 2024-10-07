@@ -56,7 +56,7 @@ export function RoomPage({
     }
 
     const songsAddedByUser: number = queue.filter(
-        (song, index) => song.addedBy === user.uuid && index >= currentIndex,
+        (song, index) => song.addedBy === user.uuid && index > currentIndex,
     ).length
 
     function copyRoomCode() {
