@@ -19,13 +19,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { toast } from "@/hooks/use-toast"
 import { Song } from "@/types/song"
 import { UUID } from "crypto"
-import {
-    ArrowDown,
-    CopyIcon,
-    Loader2Icon,
-    PlusCircleIcon,
-    SearchIcon,
-} from "lucide-react"
+import { CopyIcon, Loader2Icon, PlusCircleIcon, SearchIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { SetStateAction, useState } from "react"
@@ -101,10 +95,6 @@ export function RoomPage({
                         PartyQ Room
                     </h1>
                 </Link>
-                <div className="flex flex-col items-center justify-center gap-1 sm:hidden">
-                    <ArrowDown className="size-8" />
-                    <p>Scroll down to refresh</p>
-                </div>
                 <div className="flex items-center space-x-2">
                     <span className="text-lg font-semibold md:text-2xl">
                         Room Code: {roomCode}
