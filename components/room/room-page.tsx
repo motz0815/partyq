@@ -365,12 +365,6 @@ export function RoomPage({
                     )}
                 </section>
             </main>
-
-            <footer className="mt-8 text-center">
-                <p>
-                    You have added {songsAddedByUser} of {maxSongsPerUser} songs
-                </p>
-            </footer>
         </div>
     )
 }
