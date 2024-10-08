@@ -1,5 +1,6 @@
 import { HostPage } from "@/components/host/host-page"
 import { createClient } from "@/lib/supabase/client"
+import { notFound } from "next/navigation"
 
 export async function generateMetadata({
     params,
@@ -21,7 +22,7 @@ export default async function Page({ params }: { params: { code: string } }) {
         .single()
 
     if (error || !room) {
-        throw new Error("Room not found")
+        notFound()
     }
 
     return <HostPage room={room} />
