@@ -151,7 +151,15 @@ export function LandingPageComponent() {
             <footer className="w-full border-t border-white/10 px-4 py-6 md:px-6">
                 <div className="container flex flex-col items-center justify-between sm:flex-row">
                     <p className="text-xs text-white/60">
-                        © 2024 PartyQ. All rights reserved.
+                        Made with ❤️ by{" "}
+                        <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline"
+                            href="https://github.com/motz0815"
+                        >
+                            motz
+                        </a>
                     </p>
                     <div className="mt-4 flex items-center space-x-4 sm:mt-0">
                         <Link
