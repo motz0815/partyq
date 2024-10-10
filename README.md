@@ -6,7 +6,7 @@ PartyQ makes queueing songs from everyone easier and fairer than ever. 🎵
 
 
 ## Create a room
-Go to [partyq.vercel.app](https://partyq.vercel.app/host) to host your own room. (It's free!)
+Go to [partyq.vercel.app](https://partyq.vercel.app) to host your own room. (It's free!)
 
 ## Features
 - 🔓 No logins needed (Host and User)
