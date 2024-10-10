@@ -9,6 +9,7 @@ import { ClipboardCheck, CopyIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { ReactNode, useEffect, useRef } from "react"
+import { ImageWithFallback } from "../ui/image-with-fallback"
 import { ScrollArea } from "../ui/scroll-area"
 import { RoomQRCode } from "./qr-code"
 
@@ -148,7 +149,7 @@ export function HostInterface({
                                                 onCurrentIndexChange(index)
                                             }
                                         >
-                                            <Image
+                                            <ImageWithFallback
                                                 src={
                                                     song.thumbnail ??
                                                     `https://i.ytimg.com/vi_webp/${song.videoId}/mqdefault.webp`
