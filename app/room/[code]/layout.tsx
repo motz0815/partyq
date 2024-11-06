@@ -2,13 +2,18 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import { getErrorRedirect } from "@/lib/utils"
 import { redirect } from "next/navigation"
 
-export default async function HostLayout({
-    children,
-    params,
-}: {
-    children: React.ReactNode
-    params: { code: string }
-}) {
+export default async function HostLayout(
+    props: {
+        children: React.ReactNode
+        params: Promise<{ code: string }>
+    }
+) {
+    const params = await props.params;
+
+    const {
+        children
+    } = props;
+
     const supabase = createAdminClient()
 
     const { data: room, error } = await supabase

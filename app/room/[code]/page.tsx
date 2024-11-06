@@ -3,17 +3,19 @@ import { getSession } from "@/lib/session"
 import { createClient } from "@/lib/supabase/client"
 import { Song } from "@/types/song"
 
-export async function generateMetadata({
-    params,
-}: {
-    params: { code: string }
-}) {
+export async function generateMetadata(
+    props: {
+        params: Promise<{ code: string }>
+    }
+) {
+    const params = await props.params;
     return {
         title: "Room - " + params.code,
     }
 }
 
-export default async function Page({ params }: { params: { code: string } }) {
+export default async function Page(props: { params: Promise<{ code: string }> }) {
+    const params = await props.params;
     const supabase = createClient()
 
     const { data: room } = await supabase
