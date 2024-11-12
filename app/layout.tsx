@@ -1,7 +1,6 @@
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from "@/lib/utils"
 import "@/styles/globals.css"
-import { Analytics } from "@vercel/analytics/next"
 import { GeistMono } from "geist/font/mono"
 import { GeistSans } from "geist/font/sans"
 import type { Metadata, Viewport } from "next"
@@ -28,6 +27,13 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            <head>
+                <script
+                    defer
+                    src="https://events.ziffer.app/index.js"
+                    data-proxy="https://events.ziffer.app"
+                ></script>
+            </head>
             <body
                 className={cn(
                     "min-h-screen bg-background font-sans antialiased",
@@ -39,7 +45,6 @@ export default function RootLayout({
                 <Suspense>
                     <Toaster />
                 </Suspense>
-                <Analytics />
             </body>
         </html>
     )
