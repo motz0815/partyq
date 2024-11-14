@@ -104,7 +104,10 @@ export default async function HostHubPage() {
                 </CardHeader>
                 <CardContent>
                     <form action={createRoom}>
-                        <SubmitButton prefix={<Plus className="size-4" />}>
+                        <SubmitButton
+                            prefix={<Plus className="size-4" />}
+                            data-umami-event="create-room"
+                        >
                             Create Room
                         </SubmitButton>
                     </form>

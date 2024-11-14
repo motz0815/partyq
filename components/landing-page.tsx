@@ -18,7 +18,7 @@ export function LandingPageComponent() {
                                     Never fight over the aux again.
                                 </h1>
                                 <p className="mx-auto max-w-[700px] md:text-xl">
-                                    Collaborative music queueing made easy.{" "}
+                                    Shared party music queueing made easy.{" "}
                                     <br /> Open source, no login required, just
                                     create a room and let the party begin!
                                 </p>
@@ -156,6 +156,7 @@ export function LandingPageComponent() {
                             rel="noopener noreferrer"
                             className="underline"
                             href="https://github.com/motz0815"
+                            data-umami-event="visit-motz-profile"
                         >
                             motz
                         </a>
@@ -166,6 +167,7 @@ export function LandingPageComponent() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center space-x-2 text-white hover:text-gray-200"
+                            data-umami-event="visit-github-repo"
                         >
                             <Github className="h-5 w-5" />
                             <span className="text-sm">
