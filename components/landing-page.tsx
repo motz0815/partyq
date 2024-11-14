@@ -35,6 +35,7 @@ export function LandingPageComponent() {
                                             name="code"
                                             placeholder="Enter room code"
                                             className="text-primary"
+                                            required
                                         />
                                         <SubmitButton size="lg">
                                             Join room
